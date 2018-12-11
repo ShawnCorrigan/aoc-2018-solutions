@@ -342,48 +342,12 @@ position=< 21109, -31312> velocity=<-2,  3>
 position=<-52224,  52496> velocity=< 5, -5>
 position=< 10583,  10592> velocity=<-1, -1>
 EOT;
-/*
-$input = <<<EOT
-position=< 9,  1> velocity=< 0,  2>
-position=< 7,  0> velocity=<-1,  0>
-position=< 3, -2> velocity=<-1,  1>
-position=< 6, 10> velocity=<-2, -1>
-position=< 2, -4> velocity=< 2,  2>
-position=<-6, 10> velocity=< 2, -2>
-position=< 1,  8> velocity=< 1, -1>
-position=< 1,  7> velocity=< 1,  0>
-position=<-3, 11> velocity=< 1, -2>
-position=< 7,  6> velocity=<-1, -1>
-position=<-2,  3> velocity=< 1,  0>
-position=<-4,  3> velocity=< 2,  0>
-position=<10, -3> velocity=<-1,  1>
-position=< 5, 11> velocity=< 1, -2>
-position=< 4,  7> velocity=< 0, -1>
-position=< 8, -2> velocity=< 0,  1>
-position=<15,  0> velocity=<-2,  0>
-position=< 1,  6> velocity=< 1,  0>
-position=< 8,  9> velocity=< 0, -1>
-position=< 3,  3> velocity=<-1,  1>
-position=< 0,  5> velocity=< 0, -1>
-position=<-2,  2> velocity=< 2,  0>
-position=< 5, -2> velocity=< 1,  2>
-position=< 1,  4> velocity=< 2,  1>
-position=<-2,  7> velocity=< 2, -2>
-position=< 3,  6> velocity=<-1, -1>
-position=< 5,  0> velocity=< 1,  0>
-position=<-6,  0> velocity=< 2,  0>
-position=< 5,  9> velocity=< 1, -2>
-position=<14,  7> velocity=<-2,  0>
-position=<-3,  6> velocity=< 2, -1>
-EOT;
-*/
 
 $input_strings_array = explode(PHP_EOL, $input);
 
 $points = [];
 
 foreach ($input_strings_array as $input_string) {
-
   preg_match("/position=< ?(?<px>[\-0-9]+), {1,2}(?<py>[\-0-9]+)> velocity=< ?(?<vx>[\-0-9]+), {1,2}(?<vy>[\-0-9]+)>/", $input_string, $matches);
 
   $points[] = [
@@ -425,6 +389,7 @@ function get_points($points, &$smallest_grid, &$second) {
     if ($y > $max_y || $max_y === null) {
       $max_y = $y;
     }
+
     $grid[$x][$y] = 1;
   }
 
@@ -449,20 +414,24 @@ function get_points($points, &$smallest_grid, &$second) {
   return $area;
 }
 
-
 function draw_grid($grid) {
   $y_pointer = $grid['limits']['min_y'];
+
   while ($y_pointer <= $grid['limits']['max_y']) {
     $x_pointer = $grid['limits']['min_x'];
+
     while ($x_pointer <= $grid['limits']['max_x']) {
       if (isset($grid['grid'][$x_pointer][$y_pointer])) {
         echo '#';
       } else {
         echo ' ';
       }
+
       $x_pointer++;
     }
+
     echo PHP_EOL;
+
     $y_pointer++;
   }
 }
@@ -491,4 +460,3 @@ while ($smallest_grid['area'] >= $last_smallest_grid_area || $smallest_grid['are
 echo '<style>pre {font-family: "Source Code Pro", monospace;line-height: 1}</style><pre>';
 
 draw_grid($smallest_grid);
-?>
