@@ -366,12 +366,16 @@ function get_points($points, &$smallest_grid, &$second) {
   $grid = [];
 
   $min_x = null;
+
   $min_y = null;
+
   $max_x = null;
+
   $max_y = null;
 
   foreach ($points as $point) {
     $x = $point['position']['x'];
+    
     $y = $point['position']['y'];
 
     if ($x < $min_x || $min_x === null) {
@@ -414,28 +418,6 @@ function get_points($points, &$smallest_grid, &$second) {
   return $area;
 }
 
-function draw_grid($grid) {
-  $y_pointer = $grid['limits']['min_y'];
-
-  while ($y_pointer <= $grid['limits']['max_y']) {
-    $x_pointer = $grid['limits']['min_x'];
-
-    while ($x_pointer <= $grid['limits']['max_x']) {
-      if (isset($grid['grid'][$x_pointer][$y_pointer])) {
-        echo '#';
-      } else {
-        echo ' ';
-      }
-
-      $x_pointer++;
-    }
-
-    echo PHP_EOL;
-
-    $y_pointer++;
-  }
-}
-
 function move_points(&$points) {
   foreach ($points as &$point) {
     $point['position']['x'] += $point['velocity']['x'];
@@ -453,8 +435,7 @@ $second = 0;
 
 while ($smallest_grid['area'] >= $last_smallest_grid_area || $smallest_grid['area'] === null) {
   $last_smallest_grid_area = get_points($points, $smallest_grid, $second);
-
   move_points($points);
 }
 
-echo $second;
+echo $smallest_grid['second'];
